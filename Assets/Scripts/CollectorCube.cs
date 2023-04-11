@@ -14,7 +14,8 @@ public class CollectorCube : MonoBehaviour
     public event EventHandler OnCubeDropped;
     public event EventHandler OnCoinCollected;
     public event EventHandler OnFinished;
-    private int cubeCount;
+    public event EventHandler OnGameOver;
+    private int cubeCount = 0;
     private int collidedObstacleAmount;
     private int collidedGoldMultiplierAmount = 1;
     private void Awake()
@@ -51,22 +52,44 @@ public class CollectorCube : MonoBehaviour
     {
         if (other.TryGetComponent(out WallObstacle obstacle))
         {
-            for(int i = 0; i < collidedObstacleAmount; i++)
+            for (int i = 0; i < collidedObstacleAmount; i++)
             {
-                cubeCount--;
                 OnCubeDropped?.Invoke(this, EventArgs.Empty);
             }
             collidedObstacleAmount = 0;
         }
     }
+
+    private bool IsRunOutOfCubes()
+    {
+        return cubeCount < 1;
+    }
+
     public void OnCollidedWithObstacle()
     {
-        collidedObstacleAmount++;
+        if (IsRunOutOfCubes())
+        {
+            OnGameOver?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            cubeCount--;
+            collidedObstacleAmount++;
+        }
+
     }
     public void OnCollidedWithGoldMultiplier()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        collidedGoldMultiplierAmount++;
+        if (IsRunOutOfCubes())
+        {
+            OnFinished?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            cubeCount--;
+            collidedGoldMultiplierAmount++;
+        }
     }
     public int GetGoldMultiplier()
     {

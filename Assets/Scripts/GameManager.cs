@@ -13,22 +13,31 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        CollectorCube.Instance.OnFinished += CubeCollector_OnFinished;
-        CubeController.Instance.OnGameOver += Instance_OnGameOver;
+        CollectorCube.Instance.OnFinished += CollectorCube_OnFinished;
+        CollectorCube.Instance.OnGameOver += CollectorCube_OnGameOver;
+    }
+    //private void OnEnable()
+    //{
+    //    CollectorCube.Instance.OnFinished += CollectorCube_OnFinished;
+    //    CollectorCube.Instance.OnGameOver += CollectorCube_OnGameOver;
+
+    //}
+    private void OnDisable()
+    {
+        CollectorCube.Instance.OnFinished -= CollectorCube_OnFinished;
+        CollectorCube.Instance.OnGameOver -= CollectorCube_OnGameOver;
     }
 
-    private void Instance_OnGameOver(object sender, EventArgs e)
+    private void CollectorCube_OnGameOver(object sender, EventArgs e)
     {
+        Time.timeScale = 0;
         OnGameOver?.Invoke(this, EventArgs.Empty);
     }
 
-    private void CubeCollector_OnFinished(object sender, EventArgs e)
+    private void CollectorCube_OnFinished(object sender, EventArgs e)
     {
+        Time.timeScale = 0;
         OnLevelCompleted?.Invoke(this, EventArgs.Empty);
-    }
-    private void OnDestroy()
-    {
-        CollectorCube.Instance.OnFinished -= CubeCollector_OnFinished;
     }
 
 }

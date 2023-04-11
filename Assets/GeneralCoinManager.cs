@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Threading.Tasks;
 
 public class GeneralCoinManager : MonoBehaviour
 {
     public static GeneralCoinManager Instance { get; private set; }
     [SerializeField] TextMeshProUGUI coinText;
+    private int coin;
     private void Awake()
     {
         if (Instance == null)
@@ -20,11 +20,14 @@ public class GeneralCoinManager : MonoBehaviour
             return;
         }
     }
-    public async void GetCoin()
+    public async void GetCoinFromCloud()
     {
-        var res = await CloudSave.Load<int>("coin");
-        Debug.Log(res);
-        coinText.text = res.ToString();
+        coin = await CloudSave.Load<int>("coin");
+        coinText.text = coin.ToString();
+    }
+    public int GetCoin()
+    {
+        return coin;
     }
     private void OnEnable()
     {
@@ -36,9 +39,9 @@ public class GeneralCoinManager : MonoBehaviour
     }
     private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
     {
-        if (arg1.buildIndex == 0)
+        if (arg1.buildIndex == 1)
         {
-            GetCoin();
+            GetCoinFromCloud();
         }
     }
 }

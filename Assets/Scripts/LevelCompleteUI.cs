@@ -16,8 +16,8 @@ public class LevelCompleteUI : MonoBehaviour
         gameObject.SetActive(true);
         calculateText.text = "(" + InGameCoinManager.Instance.GetCoinAmount() + " x " + CollectorCube.Instance.GetGoldMultiplier() + ")";
         int reward = InGameCoinManager.Instance.GetCoinAmount() * CollectorCube.Instance.GetGoldMultiplier();
-        goldRewardText.text = "+" +reward ;
-        CloudSave.Save("coin", reward);
+        goldRewardText.text = "+" + reward;
+        CloudSave.Save("coin", reward + GeneralCoinManager.Instance.GetCoin());
     }
     private void OnDestroy()
     {
@@ -26,6 +26,6 @@ public class LevelCompleteUI : MonoBehaviour
     public void OnClick_NextButton()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }

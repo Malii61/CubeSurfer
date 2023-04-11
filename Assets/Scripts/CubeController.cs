@@ -4,7 +4,6 @@ using UnityEngine;
 public class CubeController : MonoBehaviour
 {
     public static CubeController Instance { get; private set; }
-    public event EventHandler OnGameOver;
     [SerializeField] private float leftAndRightSpeed;
     [SerializeField] private float forwardSpeed;
     [SerializeField] CollectorCube collector;
@@ -18,7 +17,7 @@ public class CubeController : MonoBehaviour
         collector.OnCubeDropped += Collector_OnCubeDropped;
     }
 
-    private void Collector_OnCubeDropped(object sender, System.EventArgs e)
+    private void Collector_OnCubeDropped(object sender, EventArgs e)
     {
         transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
         collector.transform.position = new Vector3(collector.transform.position.x, collector.transform.position.y + 1, collector.transform.position.z);
@@ -53,14 +52,19 @@ public class CubeController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.TryGetComponent(out IObstacle obstacle))
-        {
-            Time.timeScale = 0;
-            OnGameOver?.Invoke(this, EventArgs.Empty);
-        }
-        else if(other.transform.TryGetComponent(out MagnetManager magnet))
+        if (other.transform.TryGetComponent(out MagnetManager magnet))
         {
             magnet.Use();
         }
+
+        if (other.TryGetComponent(out WallObstacle obstacle))
+        {
+            collector.OnCollidedWithObstacle();
+        }
+        else if (other.TryGetComponent(out GoldMultiplier goldMultiplier))
+        {
+            collector.OnCollidedWithGoldMultiplier();
+        }
+
     }
 }
