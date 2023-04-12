@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
+    public enum PositionClamp
+    {
+        left,
+        right,
+        none
+    }
+    private PositionClamp positonClamp = PositionClamp.none;
     public static CubeController Instance { get; private set; }
     [SerializeField] private float leftAndRightSpeed;
     [SerializeField] private float forwardSpeed;
@@ -37,19 +44,22 @@ public class CubeController : MonoBehaviour
     private void Update()
     {
         Move();
-        ClampPosition();
     }
     private void Move()
     {
         float horizontalMove = Input.GetAxis("Horizontal") * leftAndRightSpeed * Time.deltaTime;
-        transform.Translate(-forwardSpeed * Time.deltaTime, 0, horizontalMove);
+        float adjustedHorizontalMove = CheckPositionClamper(horizontalMove);
+        transform.Translate(-forwardSpeed * Time.deltaTime, 0, adjustedHorizontalMove);
     }
-    private void ClampPosition()
+
+    private float CheckPositionClamper(float horizontalMove)
     {
-        var zPos = transform.position.z;
-        zPos = Mathf.Clamp(zPos, -4.5f, 4.5f);
-        transform.position = new Vector3(transform.position.x, transform.position.y, zPos);
+        bool isGreaterThanZero = horizontalMove > 0;
+        if ((positonClamp == PositionClamp.right && isGreaterThanZero) || (positonClamp == PositionClamp.left && !isGreaterThanZero))
+            return 0f;
+        return horizontalMove;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.TryGetComponent(out MagnetManager magnet))
@@ -65,6 +75,9 @@ public class CubeController : MonoBehaviour
         {
             collector.OnCollidedWithGoldMultiplier();
         }
-
+    }
+    public void SetClampPosition(PositionClamp clamp)
+    {
+        positonClamp = clamp;
     }
 }

@@ -5,6 +5,7 @@ public class CollectorCube : MonoBehaviour
 {
     public static CollectorCube Instance { get; private set; }
     [SerializeField] Transform mainCube;
+    private CubeController cubeController;
     public event EventHandler<OnCubeCollectedEventArgs> OnCubeCollected;
     public class OnCubeCollectedEventArgs : EventArgs
     {
@@ -21,6 +22,7 @@ public class CollectorCube : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        cubeController = mainCube.GetComponent<CubeController>();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -48,6 +50,21 @@ public class CollectorCube : MonoBehaviour
         {
             OnFinished?.Invoke(this, EventArgs.Empty);
         }
+
+        if (other.transform.TryGetComponent(out CubeRestrictor restrictor))
+        {
+            // main cube is out of the plane borders
+            if (restrictor.restrict == CubeRestrictor.Restrict.right)
+            {
+                // cube is out of the borders from right side
+                cubeController.SetClampPosition(CubeController.PositionClamp.right);
+            }
+            else
+            {
+                // cube is out of the borders from left side
+                cubeController.SetClampPosition(CubeController.PositionClamp.left);
+            }
+        }
     }
 
     private void SetCubeParentToMainCube(CollectableCube collectedCube)
@@ -67,24 +84,27 @@ public class CollectorCube : MonoBehaviour
     {
         if (other.TryGetComponent(out WallObstacle obstacle))
         {
-            Debug.Log("ontriggerexit");
-            Debug.Log(collidedObstacleAmount);
             for (int i = 0; i < collidedObstacleAmount; i++)
             {
                 OnCubeDropped?.Invoke(this, EventArgs.Empty);
             }
             collidedObstacleAmount = 0;
         }
+        if (other.transform.TryGetComponent(out CubeRestrictor restrictor))
+        {
+            // main cube is in the plane borders
+            cubeController.SetClampPosition(CubeController.PositionClamp.none);
+        }
     }
 
     private bool IsRunOutOfCubes()
     {
+        Debug.Log(cubeCount);
         return cubeCount < 1;
     }
 
     public void OnCollidedWithObstacle()
     {
-        Debug.Log("on collided obstacle");
         if (IsRunOutOfCubes())
         {
             OnGameOver?.Invoke(this, EventArgs.Empty);
