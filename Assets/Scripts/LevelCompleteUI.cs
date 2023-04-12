@@ -26,6 +26,6 @@ public class LevelCompleteUI : MonoBehaviour
     public void OnClick_NextButton()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
