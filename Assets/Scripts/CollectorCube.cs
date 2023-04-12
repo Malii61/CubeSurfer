@@ -28,15 +28,15 @@ public class CollectorCube : MonoBehaviour
         {
             if (cube.collected)
                 return;
-            cubeCount++;
-            cube.collected = true;
-            cube.transform.parent = mainCube;
-            cube.transform.localPosition = new Vector3(0, -cubeCount, 0);
-            OnCubeCollected?.Invoke(this, new OnCubeCollectedEventArgs
+            if (cube.transform.childCount > 0)
             {
-                cubeTransform = cube.transform,
-                collectedCube = cube
-            });
+                for(int i = 0; i < cube.transform.childCount; i++)
+                {
+                    CollectableCube childCube = cube.transform.GetChild(i).GetComponent<CollectableCube>();
+                    SetCubeParentToMainCube(childCube);
+                }
+            }
+            SetCubeParentToMainCube(cube);
         }
         else if (other.CompareTag("Coin"))
         {
@@ -48,6 +48,21 @@ public class CollectorCube : MonoBehaviour
             OnFinished?.Invoke(this, EventArgs.Empty);
         }
     }
+
+    private void SetCubeParentToMainCube(CollectableCube collectedCube)
+    {
+        cubeCount++;
+        collectedCube.collected = true;
+        collectedCube.transform.parent = mainCube;
+        collectedCube.transform.localPosition = new Vector3(0, -cubeCount, 0);
+        Debug.Log(collectedCube.transform.localPosition);
+        OnCubeCollected?.Invoke(this, new OnCubeCollectedEventArgs
+        {
+            cubeTransform = collectedCube.transform,
+            collectedCube = collectedCube
+        });
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out WallObstacle obstacle))
