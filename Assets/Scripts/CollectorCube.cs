@@ -30,9 +30,10 @@ public class CollectorCube : MonoBehaviour
                 return;
             if (cube.transform.childCount > 0)
             {
-                for(int i = 0; i < cube.transform.childCount; i++)
+                int childCount = cube.transform.childCount;
+                for (int i = 0; i < childCount; i++)
                 {
-                    CollectableCube childCube = cube.transform.GetChild(i).GetComponent<CollectableCube>();
+                    CollectableCube childCube = cube.transform.GetChild(0).GetComponent<CollectableCube>();
                     SetCubeParentToMainCube(childCube);
                 }
             }
@@ -55,7 +56,6 @@ public class CollectorCube : MonoBehaviour
         collectedCube.collected = true;
         collectedCube.transform.parent = mainCube;
         collectedCube.transform.localPosition = new Vector3(0, -cubeCount, 0);
-        Debug.Log(collectedCube.transform.localPosition);
         OnCubeCollected?.Invoke(this, new OnCubeCollectedEventArgs
         {
             cubeTransform = collectedCube.transform,
@@ -67,6 +67,8 @@ public class CollectorCube : MonoBehaviour
     {
         if (other.TryGetComponent(out WallObstacle obstacle))
         {
+            Debug.Log("ontriggerexit");
+            Debug.Log(collidedObstacleAmount);
             for (int i = 0; i < collidedObstacleAmount; i++)
             {
                 OnCubeDropped?.Invoke(this, EventArgs.Empty);
@@ -82,6 +84,7 @@ public class CollectorCube : MonoBehaviour
 
     public void OnCollidedWithObstacle()
     {
+        Debug.Log("on collided obstacle");
         if (IsRunOutOfCubes())
         {
             OnGameOver?.Invoke(this, EventArgs.Empty);
