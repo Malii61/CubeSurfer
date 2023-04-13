@@ -99,7 +99,6 @@ public class CollectorCube : MonoBehaviour
 
     private bool IsRunOutOfCubes()
     {
-        Debug.Log(cubeCount);
         return cubeCount < 1;
     }
 
@@ -136,5 +135,17 @@ public class CollectorCube : MonoBehaviour
     public Transform GetPosition()
     {
         return transform;
+    }
+    public void DropCubeManually()
+    {
+        if (!IsRunOutOfCubes())
+        {
+            OnCubeDropped?.Invoke(this, EventArgs.Empty);
+            cubeCount--;
+        }
+        else
+        {
+            OnGameOver?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

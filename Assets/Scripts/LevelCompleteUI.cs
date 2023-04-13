@@ -28,4 +28,8 @@ public class LevelCompleteUI : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void OnClick_BackToMenu()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
