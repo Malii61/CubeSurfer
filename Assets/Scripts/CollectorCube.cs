@@ -13,11 +13,16 @@ public class CollectorCube : MonoBehaviour
         public CollectableCube collectedCube;
     }
     public event EventHandler OnCubeDropped;
-    public event EventHandler OnCoinCollected;
+    public event EventHandler<OnCoinCollectedEventArgs> OnCoinCollected;
+    public class OnCoinCollectedEventArgs : EventArgs
+    {
+        public int coinAmount;
+    }
     public event EventHandler OnFinished;
     public event EventHandler OnGameOver;
     private int cubeCount = 0;
-    private int collidedObstacleAmount;
+
+    private int collidedObstacleAmount; 
     private int collidedGoldMultiplierAmount = 1;
     private void Awake()
     {
@@ -43,12 +48,17 @@ public class CollectorCube : MonoBehaviour
         }
         else if (other.CompareTag("Coin"))
         {
-            OnCoinCollected?.Invoke(this, EventArgs.Empty);
+            OnCoinCollected?.Invoke(this, new OnCoinCollectedEventArgs { coinAmount = 1 });
             Destroy(other.transform.parent.gameObject);
         }
         else if (other.CompareTag("FinishLine"))
         {
             OnFinished?.Invoke(this, EventArgs.Empty);
+        }
+        else if (other.TryGetComponent(out GoldTreasure treasure))
+        {
+            treasure.Interact();
+            OnCoinCollected?.Invoke(this, new OnCoinCollectedEventArgs { coinAmount = treasure.GetTreasureAmount() });
         }
 
         if (other.transform.TryGetComponent(out CubeRestrictor restrictor))
@@ -99,34 +109,26 @@ public class CollectorCube : MonoBehaviour
 
     private bool IsRunOutOfCubes()
     {
-        return cubeCount < 1;
+        return mainCube.transform.childCount < 3;
     }
 
     public void OnCollidedWithObstacle()
     {
-        if (IsRunOutOfCubes())
-        {
-            OnGameOver?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            cubeCount--;
-            collidedObstacleAmount++;
-        }
-
+        CheckGameOver();
+        cubeCount--;
+        collidedObstacleAmount++; 
     }
     public void OnCollidedWithGoldMultiplier()
     {
-        if (IsRunOutOfCubes())
-        {
-            OnFinished?.Invoke(this, EventArgs.Empty);
-        }
-        else
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-            cubeCount--;
-            collidedGoldMultiplierAmount++;
-        }
+        CheckGameFinished();
+        transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+        cubeCount--;
+        collidedGoldMultiplierAmount++;
+    }
+    internal void OnCollidedWithFire()
+    {
+        CheckGameOver();
+        OnCubeDropped?.Invoke(this, EventArgs.Empty);
     }
     public int GetGoldMultiplier()
     {
@@ -138,14 +140,22 @@ public class CollectorCube : MonoBehaviour
     }
     public void DropCubeManually()
     {
-        if (!IsRunOutOfCubes())
-        {
-            OnCubeDropped?.Invoke(this, EventArgs.Empty);
-            cubeCount--;
-        }
-        else
+        CheckGameOver();
+        cubeCount--;
+        OnCubeDropped?.Invoke(this, EventArgs.Empty);
+    }
+    public void CheckGameOver()
+    {
+        if (IsRunOutOfCubes())
         {
             OnGameOver?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    public void CheckGameFinished()
+    {
+        if (IsRunOutOfCubes())
+        {
+            OnFinished?.Invoke(this, EventArgs.Empty);
         }
     }
 }

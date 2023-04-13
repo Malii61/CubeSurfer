@@ -14,9 +14,10 @@ public class InGameCoinManager : MonoBehaviour
         CollectorCube.Instance.OnCoinCollected += CollectorCube_OnCoinCollected;
         coinAmountText.text = coinAmount.ToString();
     }
-    private void CollectorCube_OnCoinCollected(object sender, System.EventArgs e)
+
+    private void CollectorCube_OnCoinCollected(object sender, CollectorCube.OnCoinCollectedEventArgs e)
     {
-        coinAmount++;
+        coinAmount += e.coinAmount;
         coinAmountText.text = coinAmount.ToString();
     }
     private void OnDestroy()

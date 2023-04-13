@@ -41,10 +41,10 @@ public class CubeRouter : MonoBehaviour
         while (firstRotValue + rotationValue != cube.rotation.eulerAngles.y)
         {
             Vector3 cubeVec = cube.rotation.eulerAngles;
-            cube.rotation = Quaternion.Slerp(cube.rotation, Quaternion.Euler(cubeVec.x, cubeVec.y + rotationValue, cubeVec.z), 0.08f);
+            cube.rotation = Quaternion.Slerp(cube.rotation, Quaternion.Euler(cubeVec.x, cubeVec.y + rotationValue, cubeVec.z), 0.1f);
 
             Vector3 cmVec = cinemachine.rotation.eulerAngles;
-            cinemachine.rotation = Quaternion.Slerp(cinemachine.rotation, Quaternion.Euler(cmVec.x, cmVec.y + rotationValue, cmVec.z), 0.08f);
+            cinemachine.rotation = Quaternion.Slerp(cinemachine.rotation, Quaternion.Euler(cmVec.x, cmVec.y + rotationValue, cmVec.z), 0.1f);
 
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }

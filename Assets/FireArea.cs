@@ -1,31 +1,26 @@
 using UnityEngine;
 using System.Collections;
 
-public class FireArea : MonoBehaviour
+public class FireArea : MonoBehaviour, IObstacle
 {
-    private bool burn;
-
-    private void OnTriggerEnter(Collider other)
+    public void OnCollision(CollectableCube cube)
+    {
+        StartCoroutine(BurnCube(cube));
+    }
+    public void AfterCollision(CollectableCube cube)
+    {
+    }
+    private IEnumerator BurnCube(CollectableCube collectableCube)
+    {
+        yield return new WaitForSeconds(0.12f);
+        collectableCube.SetPositionAndDestroy(transform, 0);
+        CollectorCube.Instance.DropCubeManually();
+    }
+    private void OnTriggerStay(Collider other)
     {
         if (other.transform.TryGetComponent(out CollectorCube collector))
         {
-            burn = true;
-            StartCoroutine(BurnCubes(collector));
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.TryGetComponent(out CollectorCube collector))
-        {
-            burn = false;
-        }
-    }
-    private IEnumerator BurnCubes(CollectorCube collector)
-    {
-        while (burn)
-        {
-            collector.DropCubeManually();
-            yield return new WaitForSeconds(Time.fixedDeltaTime * 5);
+            collector.CheckGameOver();
         }
     }
 }

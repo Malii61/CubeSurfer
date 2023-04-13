@@ -30,6 +30,7 @@ public class LevelCompleteUI : MonoBehaviour
     }
     public void OnClick_BackToMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 }

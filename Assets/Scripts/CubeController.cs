@@ -26,15 +26,24 @@ public class CubeController : MonoBehaviour
 
     private void Collector_OnCubeDropped(object sender, EventArgs e)
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
-        collector.transform.position = new Vector3(collector.transform.position.x, collector.transform.position.y + 1, collector.transform.position.z);
+        UpdatePositions();
     }
-
     private void Collector_OnCubeCollected(object sender, CollectorCube.OnCubeCollectedEventArgs e)
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-        collector.transform.position = new Vector3(collector.transform.position.x, collector.transform.position.y - 1, collector.transform.position.z);
+        UpdatePositions();
     }
+    private void UpdatePositions()
+    {
+        int childCount = transform.childCount;
+        transform.position = new Vector3(transform.position.x, childCount - 1, transform.position.z);
+        transform.GetChild(1).localPosition = new Vector3(0, -(childCount - 2), 0);
+        for (int i = 2; i < childCount; i++)
+        {
+            transform.GetChild(i).localPosition = new Vector3(0, -(i - 1), 0);
+        }
+    }
+
+
     private void OnDestroy()
     {
         collector.OnCubeCollected -= Collector_OnCubeCollected;
