@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a2844fe03b66140a78c8ff4d98ade1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  collideWithWallSound: {fileID: 8300000, guid: 5c5cc3fa29ca96d4ea5e91f3bab9de14,
+    type: 3}

@@ -5,7 +5,13 @@ public class CollectorCube : MonoBehaviour
 {
     public static CollectorCube Instance { get; private set; }
     [SerializeField] Transform mainCube;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip collectCubeSound;
+    [SerializeField] AudioClip collectCoinSound;
+    [SerializeField] AudioClip gameOverSound;
+    [SerializeField] AudioClip levelCompleteSound;
     private CubeController cubeController;
+    #region events
     public event EventHandler<OnCubeCollectedEventArgs> OnCubeCollected;
     public class OnCubeCollectedEventArgs : EventArgs
     {
@@ -20,10 +26,13 @@ public class CollectorCube : MonoBehaviour
     }
     public event EventHandler OnFinished;
     public event EventHandler OnGameOver;
+    #endregion
     private int cubeCount = 0;
 
-    private int collidedObstacleAmount; 
+    private int collidedObstacleAmount;
     private int collidedGoldMultiplierAmount = 1;
+
+
     private void Awake()
     {
         Instance = this;
@@ -45,15 +54,18 @@ public class CollectorCube : MonoBehaviour
                 }
             }
             SetCubeParentToMainCube(cube);
+            audioSource.PlayOneShot(collectCubeSound);
         }
         else if (other.CompareTag("Coin"))
         {
             OnCoinCollected?.Invoke(this, new OnCoinCollectedEventArgs { coinAmount = 1 });
             Destroy(other.transform.parent.gameObject);
+            audioSource.PlayOneShot(collectCoinSound);
         }
         else if (other.CompareTag("FinishLine"))
         {
-            OnFinished?.Invoke(this, EventArgs.Empty);
+            CompleteLevel();
+
         }
         else if (other.TryGetComponent(out GoldTreasure treasure))
         {
@@ -76,6 +88,8 @@ public class CollectorCube : MonoBehaviour
             }
         }
     }
+
+
 
     private void SetCubeParentToMainCube(CollectableCube collectedCube)
     {
@@ -116,7 +130,7 @@ public class CollectorCube : MonoBehaviour
     {
         CheckGameOver();
         cubeCount--;
-        collidedObstacleAmount++; 
+        collidedObstacleAmount++;
     }
     public void OnCollidedWithGoldMultiplier()
     {
@@ -149,13 +163,24 @@ public class CollectorCube : MonoBehaviour
         if (IsRunOutOfCubes())
         {
             OnGameOver?.Invoke(this, EventArgs.Empty);
+            audioSource.PlayOneShot(gameOverSound);
         }
     }
     public void CheckGameFinished()
     {
         if (IsRunOutOfCubes())
         {
-            OnFinished?.Invoke(this, EventArgs.Empty);
+            CompleteLevel();
         }
+    }
+    private void CompleteLevel()
+    {
+        OnFinished?.Invoke(this, EventArgs.Empty);
+        audioSource.PlayOneShot(levelCompleteSound);
+    }
+    public void PlayAudioClip(AudioClip clip)
+    {
+        if (!audioSource.isPlaying)
+            audioSource.PlayOneShot(clip);
     }
 }

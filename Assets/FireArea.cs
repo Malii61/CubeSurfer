@@ -3,12 +3,11 @@ using System.Collections;
 
 public class FireArea : MonoBehaviour, IObstacle
 {
+    [SerializeField] AudioClip burnCubeSound;
     public void OnCollision(CollectableCube cube)
     {
         StartCoroutine(BurnCube(cube));
-    }
-    public void AfterCollision(CollectableCube cube)
-    {
+        CollectorCube.Instance.PlayAudioClip(burnCubeSound);
     }
     private IEnumerator BurnCube(CollectableCube collectableCube)
     {

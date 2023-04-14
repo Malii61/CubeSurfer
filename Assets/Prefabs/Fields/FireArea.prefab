@@ -4993,6 +4993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4589fd5ada3d2274ea2ab795b50c048f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  burnCubeSound: {fileID: 8300000, guid: 630d841a899c3404d85a9a8d22c2266c, type: 3}
 --- !u!1 &3800446451037814381
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class CubeController : MonoBehaviour
     {
         UpdatePositions();
     }
-    private void UpdatePositions()
+    internal void UpdatePositions()
     {
         int childCount = transform.childCount;
         transform.position = new Vector3(transform.position.x, childCount - 1, transform.position.z);

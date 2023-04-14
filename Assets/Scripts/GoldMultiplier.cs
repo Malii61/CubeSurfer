@@ -5,10 +5,6 @@ public class GoldMultiplier : MonoBehaviour, IObstacle
     public void OnCollision(CollectableCube cube)
     {
         CollectorCube.Instance.OnCollidedWithGoldMultiplier();
-        cube.SetPositionAndDestroy(transform);
+        cube.SetPositionAndDestroy(transform, 5f);
     }
-    public void AfterCollision(CollectableCube cube)
-    {
-    }
-
 }

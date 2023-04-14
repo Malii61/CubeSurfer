@@ -20,9 +20,14 @@ public class GeneralCoinManager : MonoBehaviour
             return;
         }
     }
+    private void Start()
+    {
+        coinText.enabled = false;
+    }
     public async void GetCoinFromCloud()
     {
         coin = await CloudSave.Load<int>("coin");
+        coinText.enabled = true;
         coinText.text = coin.ToString();
     }
     public int GetCoin()
