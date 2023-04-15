@@ -52,6 +52,8 @@ public class CubeController : MonoBehaviour
 
     private void Update()
     {
+        if (GameInput.Instance.GetMovementVectorNormalized() != Vector2.zero)
+            Debug.Log(GameInput.Instance.GetMovementVectorNormalized());
         Move();
     }
     private void Move()
