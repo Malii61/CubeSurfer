@@ -14,6 +14,19 @@ public class CubeController : MonoBehaviour
     [SerializeField] private float leftAndRightSpeed;
     [SerializeField] private float forwardSpeed;
     [SerializeField] CollectorCube collector;
+
+    private Touch _touch;
+
+    private bool _dragStarted;
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+#else
+    public static AndroidJavaClass unityPlayer;
+    public static AndroidJavaObject currentActivity;
+    public static AndroidJavaObject vibrator;
+#endif
     private void Awake()
     {
         Instance = this;
@@ -22,6 +35,13 @@ public class CubeController : MonoBehaviour
     {
         collector.OnCubeCollected += Collector_OnCubeCollected;
         collector.OnCubeDropped += Collector_OnCubeDropped;
+    }
+    public void Vibrate(long milliseconds)
+    {
+        if (isAndroid())
+            vibrator.Call("vibrate", milliseconds);
+        else
+            Handheld.Vibrate();
     }
 
     private void Collector_OnCubeDropped(object sender, EventArgs e)
@@ -50,16 +70,32 @@ public class CubeController : MonoBehaviour
         collector.OnCubeDropped -= Collector_OnCubeDropped;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (GameInput.Instance.GetMovementVectorNormalized() != Vector2.zero)
-            Debug.Log(GameInput.Instance.GetMovementVectorNormalized());
-        Move();
+        if (Input.touchCount > 0)
+        {
+            _touch = Input.GetTouch(0);
+            if (_touch.phase == TouchPhase.Began)
+            {
+                _dragStarted = true;
+            }
+        }
+        if (_dragStarted)
+        {
+            if (_touch.phase == TouchPhase.Moved)
+            {
+                float x = _touch.deltaPosition.x * 0.003f;
+                Move(x);
+            }
+            else
+            {
+                Move(0f);
+            }
+        }
     }
-    private void Move()
+    private void Move(float moveValue)
     {
-        float horizontalMove = Input.GetAxis("Horizontal") * leftAndRightSpeed * Time.deltaTime;
-        float adjustedHorizontalMove = CheckPositionClamper(horizontalMove);
+        float adjustedHorizontalMove = CheckPositionClamper(moveValue);
         transform.Translate(-forwardSpeed * Time.deltaTime, 0, adjustedHorizontalMove);
     }
 
@@ -90,5 +126,13 @@ public class CubeController : MonoBehaviour
     public void SetClampPosition(PositionClamp clamp)
     {
         positonClamp = clamp;
+    }
+    public bool isAndroid()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+	return true;
+#else
+        return false;
+#endif
     }
 }

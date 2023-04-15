@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
+
 public class LevelCompleteUI : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI calculateText;
@@ -26,8 +28,19 @@ public class LevelCompleteUI : MonoBehaviour
     public void OnClick_NextButton()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (!IsThisLastScene())
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        else
+            SceneManager.LoadScene(1);
     }
+
+    private bool IsThisLastScene()
+    {
+        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
+            return true;
+        return false;
+    }
+
     public void OnClick_BackToMenu()
     {
         Time.timeScale = 1;

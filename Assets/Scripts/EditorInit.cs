@@ -1,4 +1,6 @@
 using UnityEditor;
+
+#if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 
 [InitializeOnLoad]
@@ -11,3 +13,4 @@ public class EditorInit
         EditorSceneManager.playModeStartScene = sceneAsset;
     }
 }
+#endif
