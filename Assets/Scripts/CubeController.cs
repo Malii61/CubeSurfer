@@ -18,15 +18,15 @@ public class CubeController : MonoBehaviour
     private Touch _touch;
 
     private bool _dragStarted;
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-#else
-    public static AndroidJavaClass unityPlayer;
-    public static AndroidJavaObject currentActivity;
-    public static AndroidJavaObject vibrator;
-#endif
+//#if UNITY_ANDROID && !UNITY_EDITOR
+//    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+//    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+//    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+//#else
+//    public static AndroidJavaClass unityPlayer;
+//    public static AndroidJavaObject currentActivity;
+//    public static AndroidJavaObject vibrator;
+//#endif
     private void Awake()
     {
         Instance = this;
@@ -36,13 +36,13 @@ public class CubeController : MonoBehaviour
         collector.OnCubeCollected += Collector_OnCubeCollected;
         collector.OnCubeDropped += Collector_OnCubeDropped;
     }
-    public void Vibrate(long milliseconds)
-    {
-        if (isAndroid())
-            vibrator.Call("vibrate", milliseconds);
-        else
-            Handheld.Vibrate();
-    }
+    //public void Vibrate(long milliseconds)
+    //{
+    //    if (isAndroid())
+    //        vibrator.Call("vibrate", milliseconds);
+    //    else
+    //        Handheld.Vibrate();
+    //}
 
     private void Collector_OnCubeDropped(object sender, EventArgs e)
     {
@@ -84,7 +84,7 @@ public class CubeController : MonoBehaviour
         {
             if (_touch.phase == TouchPhase.Moved)
             {
-                float x = _touch.deltaPosition.x * 0.003f;
+                float x = _touch.deltaPosition.x * 0.006f;
                 Move(x);
             }
             else
@@ -127,12 +127,12 @@ public class CubeController : MonoBehaviour
     {
         positonClamp = clamp;
     }
-    public bool isAndroid()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-	return true;
-#else
-        return false;
-#endif
-    }
+//    public bool isAndroid()
+//    {
+//#if UNITY_ANDROID && !UNITY_EDITOR
+//	return true;
+//#else
+//        return false;
+//#endif
+//    }
 }

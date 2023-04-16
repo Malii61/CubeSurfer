@@ -61,7 +61,7 @@ public class CollectorCube : MonoBehaviour
             OnCoinCollected?.Invoke(this, new OnCoinCollectedEventArgs { coinAmount = 1 });
             Destroy(other.transform.parent.gameObject);
             audioSource.PlayOneShot(collectCoinSound);
-            cubeController.Vibrate(1000);
+            //cubeController.Vibrate(1000);
         }
         else if (other.CompareTag("FinishLine"))
         {

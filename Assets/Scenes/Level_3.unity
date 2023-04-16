@@ -3536,7 +3536,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 70
+  field of view: 85
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5406,7 +5406,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 1490138887}
   m_Lens:
-    FieldOfView: 70
+    FieldOfView: 85
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -7297,6 +7297,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MovingField
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121605463755212797, guid: 262324452b474fb4ab16c44bb45f728e,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 0.12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 262324452b474fb4ab16c44bb45f728e, type: 3}
