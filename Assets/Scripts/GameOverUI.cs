@@ -18,4 +18,9 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    public void OnClick_NoThanksButton()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
+    }
 }

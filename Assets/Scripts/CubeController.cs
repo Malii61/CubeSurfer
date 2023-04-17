@@ -15,18 +15,20 @@ public class CubeController : MonoBehaviour
     [SerializeField] private float forwardSpeed;
     [SerializeField] CollectorCube collector;
 
+    private float senstivityMultiplier = 0.006f;
+
     private Touch _touch;
 
     private bool _dragStarted;
-//#if UNITY_ANDROID && !UNITY_EDITOR
-//    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-//    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-//    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-//#else
-//    public static AndroidJavaClass unityPlayer;
-//    public static AndroidJavaObject currentActivity;
-//    public static AndroidJavaObject vibrator;
-//#endif
+    //#if UNITY_ANDROID && !UNITY_EDITOR
+    //    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+    //    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+    //    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+    //#else
+    //    public static AndroidJavaClass unityPlayer;
+    //    public static AndroidJavaObject currentActivity;
+    //    public static AndroidJavaObject vibrator;
+    //#endif
     private void Awake()
     {
         Instance = this;
@@ -35,6 +37,7 @@ public class CubeController : MonoBehaviour
     {
         collector.OnCubeCollected += Collector_OnCubeCollected;
         collector.OnCubeDropped += Collector_OnCubeDropped;
+
     }
     //public void Vibrate(long milliseconds)
     //{
@@ -80,11 +83,11 @@ public class CubeController : MonoBehaviour
                 _dragStarted = true;
             }
         }
-        if (_dragStarted)
+        if (_dragStarted && !PauseMenuUI.isPauseMenuActive)
         {
             if (_touch.phase == TouchPhase.Moved)
             {
-                float x = _touch.deltaPosition.x * 0.006f;
+                float x = _touch.deltaPosition.x * senstivityMultiplier;
                 Move(x);
             }
             else
@@ -106,7 +109,10 @@ public class CubeController : MonoBehaviour
             return 0f;
         return horizontalMove;
     }
-
+    public void SetSensitivityMultiplier(int value)
+    {
+        senstivityMultiplier = 0.004f + 0.001f * value;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.TryGetComponent(out MagnetManager magnet))
@@ -127,12 +133,12 @@ public class CubeController : MonoBehaviour
     {
         positonClamp = clamp;
     }
-//    public bool isAndroid()
-//    {
-//#if UNITY_ANDROID && !UNITY_EDITOR
-//	return true;
-//#else
-//        return false;
-//#endif
-//    }
+    //    public bool isAndroid()
+    //    {
+    //#if UNITY_ANDROID && !UNITY_EDITOR
+    //	return true;
+    //#else
+    //        return false;
+    //#endif
+    //    }
 }

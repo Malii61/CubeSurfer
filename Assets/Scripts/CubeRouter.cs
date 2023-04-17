@@ -13,6 +13,7 @@ public class CubeRouter : MonoBehaviour
 
     [SerializeField] Transform cinemachine;
     [SerializeField] Direction direction;
+    [SerializeField] Transform previousPlane;
     private void Start()
     {
         if (!cinemachine)
@@ -24,6 +25,7 @@ public class CubeRouter : MonoBehaviour
     {
         if (other.transform.TryGetComponent(out CollectorCube cube))
         {
+            previousPlane.GetChild(0).gameObject.SetActive(false);
             float rotationValue = 0f;
             switch (direction)
             {
@@ -36,6 +38,7 @@ public class CubeRouter : MonoBehaviour
             StartCoroutine(RotateSmoothly(mainCube.rotation.eulerAngles.y, mainCube, rotationValue));
         }
     }
+   
     private IEnumerator RotateSmoothly(float firstRotValue, Transform cube, float rotationValue)
     {
         while (firstRotValue + rotationValue != cube.rotation.eulerAngles.y)
