@@ -820,6 +820,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e53ff453a850454386298854dfdac4c, type: 3}
+--- !u!4 &176700025 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7608963432664535405, guid: 0e53ff453a850454386298854dfdac4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 176700024}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &194569349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7026,6 +7032,11 @@ PrefabInstance:
       propertyPath: cinemachine
       value: 
       objectReference: {fileID: 1916973222}
+    - target: {fileID: 747945763270215190, guid: d796289ec9a58fd40877548d72ce83cb,
+        type: 3}
+      propertyPath: currentPlane
+      value: 
+      objectReference: {fileID: 176700025}
     - target: {fileID: 747945763270215190, guid: d796289ec9a58fd40877548d72ce83cb,
         type: 3}
       propertyPath: previousPlane

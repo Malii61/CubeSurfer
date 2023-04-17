@@ -15,7 +15,7 @@ public class CubeController : MonoBehaviour
     [SerializeField] private float forwardSpeed;
     [SerializeField] CollectorCube collector;
 
-    private float senstivityMultiplier = 0.006f;
+    private float senstivityMultiplier = 0.007f;
 
     private Touch _touch;
 
@@ -111,7 +111,7 @@ public class CubeController : MonoBehaviour
     }
     public void SetSensitivityMultiplier(int value)
     {
-        senstivityMultiplier = 0.004f + 0.001f * value;
+        senstivityMultiplier = 0.006f + 0.001f * value;
     }
     private void OnTriggerEnter(Collider other)
     {
