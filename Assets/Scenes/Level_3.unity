@@ -8074,6 +8074,16 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 0.12
       objectReference: {fileID: 0}
+    - target: {fileID: 8121605463755212797, guid: 262324452b474fb4ab16c44bb45f728e,
+        type: 3}
+      propertyPath: positionParams.moveAmount.x
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121605463755212797, guid: 262324452b474fb4ab16c44bb45f728e,
+        type: 3}
+      propertyPath: positionParams.moveAmountMax.x
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 262324452b474fb4ab16c44bb45f728e, type: 3}
 --- !u!54 &5429649410498905207
