@@ -75,6 +75,8 @@ public class CubeController : MonoBehaviour
 
     private void LateUpdate()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        	
         if (Input.touchCount > 0)
         {
             _touch = Input.GetTouch(0);
@@ -95,6 +97,11 @@ public class CubeController : MonoBehaviour
                 Move(0f);
             }
         }
+#else
+
+        float horizontalMove = Input.GetAxis("Horizontal") * leftAndRightSpeed * Time.deltaTime;
+        Move(horizontalMove);
+#endif 
     }
     private void Move(float moveValue)
     {
@@ -132,6 +139,14 @@ public class CubeController : MonoBehaviour
     public void SetClampPosition(PositionClamp clamp)
     {
         positonClamp = clamp;
+    }
+    public void SetCubeSpeed(float speed)
+    {
+        forwardSpeed = speed;
+    }
+    public float GetCubeSpeed()
+    {
+        return forwardSpeed;
     }
     //    public bool isAndroid()
     //    {

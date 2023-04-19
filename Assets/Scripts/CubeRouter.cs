@@ -36,6 +36,9 @@ public class CubeRouter : MonoBehaviour
                 case Direction.right:
                     rotationValue = 90f;
                     break;
+                case Direction.left:
+                    rotationValue = -90f;
+                    break;
 
             }
             Transform mainCube = cube.transform.parent;
@@ -45,7 +48,7 @@ public class CubeRouter : MonoBehaviour
 
     private IEnumerator RotateSmoothly(float firstRotValue, Transform cube, float rotationValue)
     {
-        while (firstRotValue + rotationValue != cube.rotation.eulerAngles.y)
+        while (Mathf.Round(firstRotValue + rotationValue) != Mathf.Round(cube.rotation.eulerAngles.y))
         {
             Vector3 cubeVec = cube.rotation.eulerAngles;
             cube.rotation = Quaternion.Slerp(cube.rotation, Quaternion.Euler(cubeVec.x, cubeVec.y + rotationValue, cubeVec.z), 0.1f);
