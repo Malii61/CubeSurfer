@@ -1,3 +1,5 @@
+#if UNITY_ANDROID && !UNITY_EDITOR
+#else
 using UnityEditor;
 
 [CustomEditor(typeof(MovingField))]
@@ -50,3 +52,4 @@ public class MovingFieldEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 }
+#endif

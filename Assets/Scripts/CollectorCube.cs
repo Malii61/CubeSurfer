@@ -124,7 +124,7 @@ public class CollectorCube : MonoBehaviour
 
     private bool IsRunOutOfCubes()
     {
-        return mainCube.transform.childCount < 3;
+        return cubeCount == 0;
     }
 
     public void OnCollidedWithObstacle()
@@ -183,5 +183,9 @@ public class CollectorCube : MonoBehaviour
     {
         if (!audioSource.isPlaying)
             audioSource.PlayOneShot(clip);
+    }
+    public int GetCubeCount()
+    {
+        return cubeCount;
     }
 }

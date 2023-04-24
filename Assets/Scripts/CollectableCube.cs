@@ -24,7 +24,7 @@ public class CollectableCube : MonoBehaviour
     }
     private IEnumerator CheckPositions()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         CubeController.Instance.UpdatePositions();
     }
 }

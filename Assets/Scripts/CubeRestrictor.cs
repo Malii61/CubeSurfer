@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CubeRestrictor : MonoBehaviour
 {
-    private Vector3 pos;
     private bool firstEnter;
     public enum Restrict
     {
@@ -12,7 +11,6 @@ public class CubeRestrictor : MonoBehaviour
     public Restrict restrict;
     private void OnTriggerEnter(Collider other)
     {
-        pos = CubeController.Instance.gameObject.transform.position;
         firstEnter = true;
     }
     private void OnTriggerStay(Collider other)
@@ -23,14 +21,14 @@ public class CubeRestrictor : MonoBehaviour
             if (restrict == Restrict.left)
             {
                 if (firstEnter)
-                    transform.position = new Vector3(pos.x, pos.y, pos.z + 0.05f);
+                    transform.Translate(new Vector3(0, 0, 0.03f));
                 else
                     transform.Translate(new Vector3(0, 0, 0.1f));
             }
             else
             {
                 if (firstEnter)
-                    transform.position = new Vector3(pos.x, pos.y, pos.z - 0.05f);
+                    transform.Translate(new Vector3(0, 0, -0.03f));
                 else
                     CubeController.Instance.gameObject.transform.Translate(new Vector3(0, 0, -0.1f));
             }

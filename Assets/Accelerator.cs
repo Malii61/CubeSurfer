@@ -4,7 +4,7 @@ using UnityEngine;
 public class Accelerator : MonoBehaviour
 {
     [SerializeField] private float acceleratorValue = 3f;
-    [SerializeField] private float accelerateTimer = 2f;
+    [SerializeField] private float accelerateTimer = 1f;
     private float firstSpeed;
     private bool accelerateOnce = true;
     public enum Direction
