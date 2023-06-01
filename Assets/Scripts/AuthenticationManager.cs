@@ -19,6 +19,6 @@ public class AuthenticationManager : MonoBehaviour
 
     public void GooglePlayLoginClicked()
     {
-        Debug.Log("I have not implemented this :)");
+        Debug.Log("I don't have google play account settings for now :)");
     }
 }

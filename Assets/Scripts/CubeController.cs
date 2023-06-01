@@ -20,15 +20,7 @@ public class CubeController : MonoBehaviour
     private Touch _touch;
 
     private bool _dragStarted;
-    //#if UNITY_ANDROID && !UNITY_EDITOR
-    //    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    //    public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-    //    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-    //#else
-    //    public static AndroidJavaClass unityPlayer;
-    //    public static AndroidJavaObject currentActivity;
-    //    public static AndroidJavaObject vibrator;
-    //#endif
+
     private void Awake()
     {
         Instance = this;
@@ -39,13 +31,6 @@ public class CubeController : MonoBehaviour
         collector.OnCubeDropped += Collector_OnCubeDropped;
 
     }
-    //public void Vibrate(long milliseconds)
-    //{
-    //    if (isAndroid())
-    //        vibrator.Call("vibrate", milliseconds);
-    //    else
-    //        Handheld.Vibrate();
-    //}
 
     private void Collector_OnCubeDropped(object sender, EventArgs e)
     {
@@ -57,6 +42,7 @@ public class CubeController : MonoBehaviour
     }
     internal void UpdatePositions()
     {
+        // yeni küp toplandýðýnda veya düþürüldüðünde mevcut küp pozisyonlarýnýn güncellenmesi
         int childCount = transform.childCount;
         transform.position = new Vector3(transform.position.x, childCount - 1, transform.position.z);
         transform.GetChild(1).localPosition = new Vector3(0, -(childCount - 2), 0);
@@ -75,6 +61,7 @@ public class CubeController : MonoBehaviour
 
     private void LateUpdate()
     {
+        // android ve masaüstünde hareket kodlarý
 #if UNITY_ANDROID && !UNITY_EDITOR
         	
         if (Input.touchCount > 0)
@@ -148,12 +135,4 @@ public class CubeController : MonoBehaviour
     {
         return forwardSpeed;
     }
-    //    public bool isAndroid()
-    //    {
-    //#if UNITY_ANDROID && !UNITY_EDITOR
-    //	return true;
-    //#else
-    //        return false;
-    //#endif
-    //    }
 }

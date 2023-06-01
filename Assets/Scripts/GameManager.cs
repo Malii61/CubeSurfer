@@ -16,12 +16,6 @@ public class GameManager : MonoBehaviour
         CollectorCube.Instance.OnFinished += CollectorCube_OnFinished;
         CollectorCube.Instance.OnGameOver += CollectorCube_OnGameOver;
     }
-    //private void OnEnable()
-    //{
-    //    CollectorCube.Instance.OnFinished += CollectorCube_OnFinished;
-    //    CollectorCube.Instance.OnGameOver += CollectorCube_OnGameOver;
-
-    //}
     private void OnDisable()
     {
         CollectorCube.Instance.OnFinished -= CollectorCube_OnFinished;
