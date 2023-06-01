@@ -5,8 +5,6 @@
 
 
 
-<!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://github.com/Malii61/CubeSurfer">
     <img src="Images/logo.jpg" alt="Logo" width="100" height="100">
@@ -25,21 +23,19 @@ Here's what I did:
 * More challenging and creative levels
 * Different creative power ups
 * Currently, there are 5 levels with different mechanics.
-
-In addition, using Unity's cloud services, the content we have in the game can be protected.
+  
+In addition, using Unity's cloud services, the materials we have in the game can be protected.
   
   
 ### Images From Game
   
   
+  
+  
 ### Installation
- <a href="https://github.com/Malii61/CubeSurfer">
-    <img src="Build/CubeSurfing.apk" alt="Logo" width="80" height="80">
-  </a>
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
+ <a>
+    If you want to try the game, you can download it from <a href="https://github.com/Malii61/CubeSurfer/blob/main/Build/CubeSurfing.apk"> this </a> link and run it on your android phone.
+
 
 Project Link: [https://github.com/Malii61/CubeSurfer](https://github.com/Malii61/CubeSurfer)
 
