@@ -28,8 +28,13 @@ In addition, using Unity's cloud services, the materials we have in the game can
   
   
 ### Images From Game
+  <img src="/Images/main%20menu.png" width="200" height="350"/>
+  <img src="/Images/in%20game%202.png" width="200" height="350"/>
+  <img src="/Images/in%20game%203.png" width="200" height="350"/>
+  <img src="/Images/in%20game%204.png" width="200" height="350"/>
   
-  
+ ### Gameplay
+  <img src="/Images/Cube%20Surfing%20Gameplay.gif" width="200" height="375"/>
   
   
 ### Installation
@@ -37,6 +42,8 @@ In addition, using Unity's cloud services, the materials we have in the game can
     If you want to try the game, you can download it from <a href="https://github.com/Malii61/CubeSurfer/blob/main/Build/CubeSurfing.apk"> this </a> link and run it on your android phone.
 
 
+   
+   
 Project Link: [https://github.com/Malii61/CubeSurfer](https://github.com/Malii61/CubeSurfer)
 
 
