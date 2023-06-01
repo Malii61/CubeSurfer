@@ -40,12 +40,12 @@ In addition, using Unity's cloud services, the materials we have in the game can
   
 ### Installation
  <a>
-    If you want to try the game, you can download it from <a href="https://github.com/Malii61/CubeSurfer/blob/main/Build/CubeSurfing.apk"> this </a> link and run it on your android phone.
+    If you want to try the game, you can download it from <a href="https://github.com/Malii61/CubeSurfing/blob/main/Build/CubeSurfing.apk"> this </a> link and run it on your android phone.
 
 
    
    
-Project Link: [https://github.com/Malii61/CubeSurfer](https://github.com/Malii61/CubeSurfer)
+Project Link: [https://github.com/Malii61/CubeSurfing](https://github.com/Malii61/CubeSurfing)
 
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
